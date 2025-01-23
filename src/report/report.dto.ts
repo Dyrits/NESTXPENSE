@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
 import { Exclude, Expose } from "class-transformer";
 
-import { INewReport, IReport, IUpdatedReport } from "../interfaces";
-import { ReportType } from "../enums";
+import { INewReport, IReport, IUpdatedReport } from "./report.interface";
+import { ReportType } from "./report.enum";
 
 class NewReportDTO implements INewReport {
   @IsString()

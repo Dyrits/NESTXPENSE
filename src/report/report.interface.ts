@@ -1,4 +1,4 @@
-import { ReportType } from "./enums";
+import { ReportType } from "./report.enum";
 
 export interface INewReport {
   source: string;
