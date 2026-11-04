@@ -51,6 +51,10 @@ const kind = process.env.SMOKE_KIND;
       await new Promise(resolve => setTimeout(resolve, 80));
       assert.match(fs.readFileSync(path.join(scratch, 'data/messages.json'), 'utf8'), /Scratch message/);
     } else if (kind === 'expense') {
+      await http.get('/reports/not-a-type').expect(400);
+      await http.get('/reports/expense/not-a-uuid').expect(400);
+      await http.get('/unknown-route').expect(404);
+      await http.post('/reports/expense').set('Content-Type','application/json').send('{broken').expect(400);
       await http.post('/reports/expense').send({ source: '', amount: -1 }).expect(400);
       const created = await http.post('/reports/expense').send({ source: 'Smoke', amount: 5 }).expect(201);
       assert.equal(created.body.source, 'Smoke');
