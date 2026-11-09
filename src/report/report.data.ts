@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { randomUUID as uuid } from "node:crypto";
 
 import { ReportType } from "./report.enum";
 import { IData } from "./report.interface";

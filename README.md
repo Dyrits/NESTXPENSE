@@ -61,3 +61,12 @@ Clean npm installation and build pass. All five unit tests pass after fixing the
 The local audit changes from 35 to 37 package findings: high 5 to 0, moderate 18 to 32, low 12 to 5, critical 0. Distinct advisory IDs fall from 36 to 3, with no new IDs. Package totals rise because tooling dependencies inherit the same advisories; this is not an all-clear. Existing in-memory persistence, UUID 9 dependency and zero-amount update behavior remain unchanged. No hosted service or deployment was tested.
 
 Migration-sensitive route/DTO behavior was reviewed against the official versioned Nest 10-to-11 guide: https://github.com/nestjs/docs.nestjs.com/blob/ba85c6a2/content/migration.md . No inspected wildcard routes, nested query consumers or shutdown hooks need source changes.
+
+
+### UUID and frozen-install follow-up (November 9, 2026)
+
+Report IDs now use Node's built-in `crypto.randomUUID()` instead of the UUID 9 package. The UUID v4 string format and report behavior remain unchanged. Node 26 LTS is the tested runtime. The lock also repairs a missing Webpack peer entry that caused the original `npm ci` to reject the existing graph.
+
+After that local lock repair, the original build, five unit tests, report HTTP smoke and multipart checks passed. A fresh standard `npm ci`, build, the same five tests and expanded report smoke also pass with native UUIDs. Smoke coverage includes unique UUID v4 IDs, report creation/read/update/delete, summary, invalid IDs/types, malformed JSON, validation and malformed gzip rejection. The actual Nest FileInterceptor still accepts a valid upload and rejects an unexpected field with HTTP 400. These are isolated local checks, not a production deployment or persistence/security review.
+
+Local npm audit falls from ten affected-package findings (nine low, one moderate) to nine low findings, with no new advisory IDs. The remaining low findings trace to the inherited unfixed deepmerge advisory; the project is not audit-clean.

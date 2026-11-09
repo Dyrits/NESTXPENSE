@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuid } from "uuid";
+import { randomUUID as uuid } from "node:crypto";
 
 import { ReportType } from "./report.enum";
 import { INewReport, IReport, IUpdatedReport } from "./report.interface";
